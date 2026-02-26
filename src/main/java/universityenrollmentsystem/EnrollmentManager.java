@@ -14,5 +14,7 @@ public interface EnrollmentManager {
     void printPersonList(); // Print list of all people 
     
     void runGUI(); // Run main GUI
+
+    void listPeopleByRole(); // List People by role
     
 }

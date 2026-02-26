@@ -34,6 +34,7 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
         System.out.println("To Add a new person, press 1");
         System.out.println("To Print the list of all people press 2");
         System.out.println("To Open GUI, press 3");
+        System.out.println("To List people by role, press 4");
 
         
         // Switch based on selected option
@@ -69,7 +70,12 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
             case 3:
                 this.runGUI();
                 break;
-            
+
+            // List people by role
+            case 4:
+                this.listPeopleByRole();
+                break;
+
             default:
                 System.out.println("Invalid option selected.");
         }
@@ -250,6 +256,82 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
         UniversityTableGUI table = new UniversityTableGUI(personList);
         table.setVisible(true);
     }
-    
+
+    @Override
+    public void listPeopleByRole() {
+        System.out.println("\n-- List People By Role --");
+        System.out.println("Press 1 to list Students ");
+        System.out.println("Press 2 to list Lecturers");
+        System.out.println("Press 3 to list Research Assistants");
+        System.out.println("Press 0 to Cancel ");
+
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        try{
+            choice = sc.nextInt();
+        }catch (java.util.InputMismatchException e){
+            System.out.println("Invalid input. Please enter a number from the menu.");
+            sc.nextLine(); // clear buffer
+            return;
+        }
+
+        switch (choice){
+            case 0:
+                System.out.println("Cancelled.");
+                break;
+
+            case 1:
+                //List all students
+                System.out.println("\n-- STUDENT LIST --");
+                boolean foundStudent = false;
+                for (Person person : personList) {
+                    if (person instanceof Student) {
+                        System.out.println(person.toString());
+                        foundStudent = true;
+                    }
+                }
+                if (!foundStudent) {
+                    System.out.println("There are no students currently enrolled in the system.");
+                }
+                System.out.println("--------------------\n");
+                break;
+
+            case 2:
+                // List all Lecturers
+                System.out.println("\n--- LECTURER LIST ---");
+                boolean foundLecturer = false;
+                for (Person person : personList) {
+                    if (person instanceof Lecturer) {
+                        System.out.println(person.toString());
+                        foundLecturer = true;
+                    }
+                }
+                if (!foundLecturer) {
+                    System.out.println("There are no lecturers currently enrolled in the system.");
+                }
+                System.out.println("---------------------\n");
+                break;
+
+            case 3 :
+                // List all ResearchAssistants
+                System.out.println("\n--- RESEARCH ASSISTANTS LIST ---");
+                boolean foundResearchAssistant = false;
+                for (Person person : personList) {
+                    if (person instanceof ResearchAssistant) {
+                        System.out.println(person.toString());
+                        foundResearchAssistant = true;
+                    }
+                }
+                if (!foundResearchAssistant) {
+                    System.out.println("There are no research assistant currently enrolled in the system.");
+                }
+                System.out.println("---------------------\n");
+                break;
+            default:
+                System.out.println("Invalid option selected. Please choose 0, 1,2, or 3.");
+        }
+    }
+
 }
 
