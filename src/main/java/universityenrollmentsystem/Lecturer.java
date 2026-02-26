@@ -33,6 +33,6 @@ public class Lecturer extends Person {
     
     @Override
     public String toString(){
-        return super.toString() + " Lecturer - Office Number: " + officeNumber + ", Specialisation: " + specialisation; 
+        return super.toString() + "[ Lecturer - Office Number: " + officeNumber + ", Specialisation: " + specialisation +"]";
     }
 }

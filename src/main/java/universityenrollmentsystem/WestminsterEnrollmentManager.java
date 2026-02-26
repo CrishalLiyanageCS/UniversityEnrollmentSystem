@@ -4,6 +4,8 @@
  */
 package universityenrollmentsystem;
 
+import javax.lang.model.element.NestingKind;
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -82,6 +84,7 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
         if(personList.size() < person_limit){
             System.out.println("Press 1 if you want to add a Student");
             System.out.println("Press 2 if you want to add a Lecturer");
+            System.out.println("Press 3 if you want to add a Research Assistant");
             
             
             int choicePerson;
@@ -172,6 +175,35 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
                     lecturer.setID(ID);
                     this.addPersonToList(lecturer);
                     
+                    break;
+
+                case 3:
+                    //is is a Research assistant
+                    System.out.println("Enter the project title :");
+                    String projectTitle = s.nextLine();
+                    System.out.println("Enter the number of hours per week ");
+                    int hoursPerWeek;
+                    try{
+                        hoursPerWeek = s.nextInt();
+                    }catch (java.util.InputMismatchException e) {
+                        System.out.println("Invalid input for Hours Per Week. Setting to 0.");
+                        hoursPerWeek = 0;
+                        s.nextLine();
+                    }
+                    s.nextLine(); //Consume newline
+
+                    System.out.println("Enter the supervisor name :");
+                    String supervisorName = s.nextLine();
+
+                    // create a new Research Assistant add to the list
+                    ResearchAssistant researchAssistant = new ResearchAssistant(name,surname);
+                    researchAssistant.setProjectTitle(projectTitle);
+                    researchAssistant.setHoursPerWeek(hoursPerWeek);
+                    researchAssistant.setSupervisorName(supervisorName);
+                    researchAssistant.setDob(date);
+                    researchAssistant.setID(ID);
+                    this.addPersonToList(researchAssistant);
+
                     break;
                 
                 
