@@ -35,6 +35,7 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
         System.out.println("To Print the list of all people press 2");
         System.out.println("To Open GUI, press 3");
         System.out.println("To List people by role, press 4");
+        System.out.println("To Print list sorted by role and name, press 5");
 
         
         // Switch based on selected option
@@ -74,6 +75,11 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
             // List people by role
             case 4:
                 this.listPeopleByRole();
+                break;
+
+            // Print sorted list
+            case 5:
+                this.printListSortedByRoleAndName();
                 break;
 
             default:
@@ -331,6 +337,51 @@ public class WestminsterEnrollmentManager implements EnrollmentManager{
             default:
                 System.out.println("Invalid option selected. Please choose 0, 1,2, or 3.");
         }
+    }
+    public void printListSortedByRoleAndName() {
+
+        if (personList.isEmpty()) {
+            System.out.println("There are no people in the system to sort.");
+            return;
+        }
+
+        // Step 1: create a copy so the original personList order is preserved
+        ArrayList<Person> sortedCopy = new ArrayList<>(personList);
+
+        // Step 2: build a Comparator that ranks by role, then surname, then name
+        Comparator<Person> byRoleThenName = new Comparator<Person>() {
+
+            // Maps a Person to its role rank: Student = 1, Lecturer = 2, Other = 3
+            private int getRoleRank(Person p) {
+                if (p instanceof Student)  return 1;
+                if (p instanceof Lecturer) return 2;
+                return 3; // any future subclass falls here
+            }
+
+            @Override
+            public int compare(Person p1, Person p2) {
+                // First compare by role rank
+                int rankDiff = Integer.compare(getRoleRank(p1), getRoleRank(p2));
+                if (rankDiff != 0) return rankDiff;
+
+                // Within the same role, compare by surname (case-insensitive)
+                int surnameDiff = p1.getSurname().compareToIgnoreCase(p2.getSurname());
+                if (surnameDiff != 0) return surnameDiff;
+
+                // If surname is also equal, compare by first name (case-insensitive)
+                return p1.getName().compareToIgnoreCase(p2.getName());
+            }
+        };
+
+        // Step 3: sort the copy using the Collections API
+        Collections.sort(sortedCopy, byRoleThenName);
+
+        // Step 4: print the sorted list
+        System.out.println("\n--- PEOPLE LIST (sorted by role, then surname, then name) ---");
+        for (Person person : sortedCopy) {
+            System.out.println(person.toString());
+        }
+        System.out.println("-------------------------------------------------------------\n");
     }
 
 }
